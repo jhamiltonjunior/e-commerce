@@ -1,6 +1,15 @@
+const form = document.querySelector('.h__form');
+const openMenu = document.querySelector('.js-open-menu');
+const menu = document.querySelector('.js-categorias');
+const closeMenu = document.querySelector('.js-close-menu');
 
+openMenu.addEventListener('click', () => menu.style.display = 'block');
 
+closeMenu.addEventListener('click', () => menu.style.display = 'none');
 
+form.addEventListener('submit', event =>{
+    event.preventDefault();
+})
 
 // Para poder recarregar sem precisar dar load
 

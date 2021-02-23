@@ -11,6 +11,7 @@ export default class ClassName {
     falaNomeAi() {
         console.log(thi.nome);
     }
+    
 }
 
 export function soma(x = 1, y = 2) {

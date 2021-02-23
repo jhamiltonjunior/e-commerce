@@ -2,20 +2,14 @@
 // só execute no arquivo que eu quiser
 // q seja importado
 
-
-export default class ClassName {
-    constructor (nome){
-        this.nome = nome
-    }
+export const getLocalStore = () => {
+    const addedInCart = localStorage.getItem('productInCart');
+    // isso converte de volta para o que era antes
+    const convertArray = JSON.parse(addedInCart)
     
-    falaNomeAi() {
-        console.log(thi.nome);
-    }
     
+    
+    if (convertArray[1] > 0) {
+        console.log(convertArray)
+    }
 }
-
-export function soma(x = 1, y = 2) {
-    return x + y
-}
-
-

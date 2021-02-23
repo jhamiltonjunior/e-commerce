@@ -4,143 +4,96 @@ const menu = document.querySelector('.js-categorias');
 const closeMenu = document.querySelector('.js-close-menu');
 const cart = document.querySelector('.cart');
 
-
-
-const productsInOffer = [
-    {
-        key: 0,
-        link: 'link0',
-        nome: 'Controle Nitendo',
-        img: './assets/img/controle-nitendo.jpg',
-        description: 'adipiscing elit. Donec eget ipsum consectetur',
-        quantityInCart: 0
-    },{
-        key: 1,
-        link: 'link1',
-        nome: 'Controle de Xbox',
-        img: './assets/img/controle-xbox.jpg',
-        description: 'Lorem ipsum dolor sit amet, consectetur',
-        quantityInCart: 0
-    },{
-        key: 2,
-        link: 'link2',
-        nome: 'Mesa Gamer',
-        img: './assets/img/mesa-gamer.jpg',
-        description: 'adipiscing elit. Donec eget ipsum consectetur',
-        quantityInCart: 0
-    },{
-        key: 3,
-        link: 'link3',
-        nome: 'Teclado Gamer',
-        img: './assets/img/teclado-gamer.jpg',
-        description: 'Lorem ipsum dolor sit amet, consectetur',
-        quantityInCart: 0
-    }
-];
-
-
-openMenu.addEventListener('click', () => menu.style.display = 'block');
-
-closeMenu.addEventListener('click', () => menu.style.display = 'none');
-
-form.addEventListener('submit', event =>{
-    event.preventDefault();
-});
-
-const initializesShop = () => {
-    const gettingProducts = document.querySelector('.shop__products')
-
-    productsInOffer.map((product) => {
-        gettingProducts.innerHTML += `
-
-            <div class="shop__one-product shop--margin">
-                <div class="shop__if-have-finished"></div>
-                <!-- End shop__if-have-finished -->
-
-                <div class="shop__img-of-product" 
-                    style="background-image: url(` + product.img + `);">
-                    <div class="shop__if-have-offer"></div>
-                </div>
-                <!-- End shop__img-of-product -->
-
-                <div class="shop__description">
-                    <h3>`+ product.nome +`</h3>
-                    <p>
-                        `+ product.description +`
-                    </p>
-                </div>
-                <!-- End shop__description -->
-
-                <div class="shop__prace">
-                    <div class="shop__before">De R$ <span class="js-before">449,00</span> Por:</div>
-                    <div class="shop__interest-free">R$ <span class="js-interest-free">256,00</span> à vista ou no boleto</div>
-                    <div class="shop__in-the-card">x12 de R$ <span class="js-in-the-card">22</span> sem juros</div>
-                </div>
-                <!-- End shop__prace -->
-                <div class="flex">
-                    <a href="`+ product.link +`" 
-                        class="shop__purchase">COMPRAR</a>
-                    
-                        <button key="`+ product.key +`"
-                        class="shop__cart">Car</button>
-                </div>
-            </div>
-        `
-    })
-};
+// isso aqui para que eu possa inicializar a loja
+// e trazer os itens que tem dentro da loja
+import { productsInOffer } from './initializesShop.js';
+import { initializesShop } from './initializesShop.js';
 
 initializesShop();
 // se eu chamar essas constantes antes de initializesShop
 // não vai adicionar os itens no cart e nem remover
 const addInCart = document.querySelectorAll('.shop__cart');
 
+openMenu.addEventListener('click', () => menu.style.display = 'block');
 
+closeMenu.addEventListener('click', () => menu.style.display = 'none');
 
-
+form.addEventListener('submit', event => {
+    event.preventDefault();
+});
 
 
 const updateTheCart = () => {
     cart.innerHTML = '';
-    productsInOffer.map((product) => {
+    productsInOffer.filter((product) => {
         if (product.quantityInCart > 0) {
             cart.innerHTML += `
-            <p>`+ product.nome +`, quantidade `
-            + product.quantityInCart +`</p>
-            
-            `
+                <p>`+ product.nome + `, quantidade `
+                + product.quantityInCart + `</p>
+                
+                `
         }
     })
+    saveProduct()
 }
+
 
 
 for (var i = 0; i < addInCart.length; i++) {
     // se eu usar arrow function não vai funcionar
-    addInCart[i].addEventListener('click', function() {
+    addInCart[i].addEventListener('click', function () {
         let addItem = this.getAttribute('key');
         productsInOffer[addItem].quantityInCart++
         updateTheCart()
     })
 }
 
-// import ClassName/*, { func }*/ from './main.export.js';
+const saveProduct = () => {
+    const productSaveWithSucesse = []
+    productsInOffer.filter((product) => {
+        // com map não vai dar certo
+        if (product.quantityInCart > 0) {
+            productSaveWithSucesse.push(
+                product.nome,
+                product.quantityInCart
+            )
+        }    
+            
+    });
+
+    // aqui eu começo a coloca-lo no "cookie"
+    // eu posso converter isso em array
+    const productJSON = JSON.stringify(productSaveWithSucesse)
+
+    // esse localStorage salva string
+    // por isso eu converte lá em cima o meu array
+    // em uma string
+    localStorage.setItem('productInCart', productJSON)
+    console.log(productJSON);
+}
 
 
 
-
+const getLocalStore = (quantity) => {
+    const addedInCart = localStorage.getItem('productInCart');
+    // isso converte de volta para o que era antes
+    const convertArray = JSON.parse(addedInCart)
     
+    
+    quantity = convertArray[1]
+    console.log(quantity);
+
+    cart.innerHTML += `
+        ${convertArray[0]}, quantidade ${convertArray[1]}
+    `
+}
+getLocalStore()
 
 
 
 
 
-
-
-
-
-
-
-
-// Para poder recarregar sem precisar dar load
+// Para poder recarregar sem precisar dar reload
 
 // const shopCar = document.querySelector('')
 
@@ -156,10 +109,3 @@ for (var i = 0; i < addInCart.length; i++) {
 //     })
 //     .then(html => console.log(html))
 //     .catch(err => console.error(err)))
-
-
-
-// esse arquivo está linkado no index.html
-
-
-

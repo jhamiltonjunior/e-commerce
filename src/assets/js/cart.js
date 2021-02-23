@@ -1,4 +1,3 @@
-// import ClassName, { soma } from './main.js';
-    
+import { getLocalStore } from './initializesShop.js'
 
-
+console.log(getLocalStore());

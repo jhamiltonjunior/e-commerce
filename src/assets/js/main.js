@@ -2,9 +2,9 @@ const form = document.querySelector('.h__form');
 const openMenu = document.querySelector('.js-open-menu');
 const menu = document.querySelector('.js-categorias');
 const closeMenu = document.querySelector('.js-close-menu');
+const cart = document.querySelector('.cart');
 
 
-const pageOfProduct = []
 
 const productsInOffer = [
     {
@@ -36,7 +36,7 @@ const productsInOffer = [
         description: 'Lorem ipsum dolor sit amet, consectetur',
         quantityInCart: 0
     }
-]
+];
 
 
 openMenu.addEventListener('click', () => menu.style.display = 'block');
@@ -45,7 +45,7 @@ closeMenu.addEventListener('click', () => menu.style.display = 'none');
 
 form.addEventListener('submit', event =>{
     event.preventDefault();
-})
+});
 
 const initializesShop = () => {
     const gettingProducts = document.querySelector('.shop__products')
@@ -87,19 +87,23 @@ const initializesShop = () => {
             </div>
         `
     })
-}
+};
 
-initializesShop()
+initializesShop();
+// se eu chamar essas constantes antes de initializesShop
+// não vai adicionar os itens no cart e nem remover
+const addInCart = document.querySelectorAll('.shop__cart');
 
-const carrinho = document.querySelector('.carrinho')
 
 
-const addInCart = document.querySelectorAll('.shop__cart')
+
+
+
 const updateTheCart = () => {
-    carrinho.innerHTML = '';
+    cart.innerHTML = '';
     productsInOffer.map((product) => {
         if (product.quantityInCart > 0) {
-            carrinho.innerHTML += `
+            cart.innerHTML += `
             <p>`+ product.nome +`, quantidade `
             + product.quantityInCart +`</p>
             
@@ -112,12 +116,18 @@ const updateTheCart = () => {
 for (var i = 0; i < addInCart.length; i++) {
     // se eu usar arrow function não vai funcionar
     addInCart[i].addEventListener('click', function() {
-        let key = this.getAttribute('key');
-        productsInOffer[key].quantityInCart++
+        let addItem = this.getAttribute('key');
+        productsInOffer[addItem].quantityInCart++
         updateTheCart()
     })
 }
 
+// import ClassName/*, { func }*/ from './main.export.js';
+
+
+
+
+    
 
 
 
@@ -146,3 +156,10 @@ for (var i = 0; i < addInCart.length; i++) {
 //     })
 //     .then(html => console.log(html))
 //     .catch(err => console.error(err)))
+
+
+
+// esse arquivo está linkado no index.html
+
+
+
